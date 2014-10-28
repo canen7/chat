@@ -1,0 +1,44 @@
+body {
+  padding: 50px;
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+input,textarea{
+	display: inline-block;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+.box{
+	display: inline-block;
+	border: 1px solid orange;
+	height: 200px;
+	width: 200px;
+	margin: 20px;
+	padding: 5px;
+	vertical-align: top;
+}
+
+.box h2{
+	background-color: orange;
+	color: white;
+}
+
+#container {
+	
+	width: 400px;
+	height: 300px;
+	border: 2px solid black;
+}
+
+#pirates {
+	margin: 30px;
+}
+
+#connected_users {
+	background-color: yellow;
+	width: 400px;
+}

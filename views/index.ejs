@@ -1,0 +1,70 @@
+<html>
+<head>
+	<title>Group Chat</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src='/socket.io/socket.io.js'></script>
+	<link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
+	<script type="text/javascript">
+		var send_chat;
+
+		$(document).ready(function(){
+			io = io.connect();
+
+			//ask for name when new user connects
+			var name = prompt("What's your name?", "your name");
+			
+			//tell the server we are here and what's our name
+			console.log("var name is: " + name)
+			io.emit("new_user",{name:name})
+
+			//listen for whole_conversation for the new user
+			io.on('whole_conversation', function(data){
+				console.log(data);
+				for (var x in data){
+					$('#chatroom').append("<p>"+data[x].name+"</p><p>"+data[x].text+"</p>");
+				}
+			})
+
+			//listen for got_new_user broadcast (for the rest of users, not the one entering??)
+			io.on('got_new_user',function(data){
+					$('#chatroom').append("<p>"+data[x].name+"</p><p>"+data[x].text+"</p>")
+			})
+
+			//sends a new chat
+			send_chat = function(){
+				//console.log($('#input_text').val())
+				io.emit("new_chat", {text: $('#input_text').val()});
+			}
+
+		
+
+			//listens for new chat
+			io.on('update_chat', function(data){
+				console.log('hello')
+				$('#chatroom').append("<p>"+data.name+"</p><p>"+data.text+"</p>")
+			})
+
+
+
+
+		
+		})
+
+		
+
+	</script>
+
+</head>
+<body>
+	<h1>Group Chat</h1>
+
+	<!-- <div id='connected_users'><p>CONNECTED USERS</p></div> -->
+	<p>Chat below:</p>
+	<textarea id='input_text' rows='2' columns='10'  placeholder='write here...'></textarea>
+	<button onclick='send_chat()'>Send!</button>
+	<div ><h3>Conversation</h3></div>
+	<div id='chatroom'></div>
+
+</body>
+</html>
